@@ -1,6 +1,10 @@
 {
+  "asarUnpack": ["**/*.node"],
   "mac": {
-    "icon": "icons/mac/app.icns"
+    "icon": "icons/mac/app.icns",
+    "target": [
+      { "target": "dir", "arch": "arm64" }
+    ]
   },
   "win": {
     "icon": "icons/win/app.ico"

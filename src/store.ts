@@ -47,6 +47,7 @@ const persistedStore: IPersistedStore = {
       try {
         this.state = { ...this.state, ...JSON.parse(localState) }
       } catch (err) {
+        // eslint-disable-next-line no-console
         console.error(err)
       }
     }

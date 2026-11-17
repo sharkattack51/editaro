@@ -1,13 +1,13 @@
 {
   "name": "Editaro",
-  "version": "1.7.1",
+  "version": "1.8.0",
   "private": true,
   "scripts": {
     "lint": "vue-cli-service lint",
     "build:electron": "vue-cli-service build:electron",
-    "electron:build:mac": "vue-cli-service electron:build --mac",
+    "electron:build:mac": "electron-builder install-app-deps --arch=arm64 && vue-cli-service electron:build --mac",
     "electron:build:win": "vue-cli-service electron:build --win",
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "patch-package && electron-builder install-app-deps",
     "electron:serve": "vue-cli-service electron:serve",
     "generate-icon": "electron-icon-generator src/assets/icon.png"
   },
@@ -17,8 +17,8 @@
     "lodash": "^4.17.20",
     "monaco-editor": "^0.22.3",
     "monaco-vim": "^0.1.13",
-    "node-sass": "^4.14.1",
     "pretty-checkbox": "^3.0.3",
+    "sass": "~1.32.13",
     "sass-loader": "^7.3.1",
     "vue": "^2.6.12",
     "vue-class-component": "^6.3.2",
@@ -31,9 +31,11 @@
     "@vue/cli-service": "^3.0.4",
     "@vue/eslint-config-prettier": "^3.0.4",
     "@vue/eslint-config-typescript": "^3.0.4",
-    "electron": "^2.0.18",
+    "electron": "^11.5.0",
+    "electron-builder": "^22.14.13",
+    "patch-package": "^6.5.1",
     "typescript": "^3.6.5",
-    "vue-cli-plugin-electron-builder": "^1.4.6",
+    "vue-cli-plugin-electron-builder": "^2.1.1",
     "vue-template-compiler": "^2.5.22"
   },
   "main": "background.js",
@@ -42,10 +44,10 @@
     "singleQuote": true
   },
   "engines": {
-    "node": "^12.0.0"
+    "node": "^22.1.0"
   },
   "volta": {
-    "node": "12.20.1",
-    "yarn": "1.22.10"
+    "node": "22.1.0",
+    "yarn": "1.22.22"
   }
 }

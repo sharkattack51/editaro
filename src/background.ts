@@ -11,11 +11,9 @@ import {
 } from 'electron'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
-import {
-  createProtocol,
-  installVueDevtools,
-} from 'vue-cli-plugin-electron-builder/lib'
-import './updator'
+import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
+// 自動更新は無効化中。有効に戻す場合は次の行のコメントを外す
+// import './updator'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 if (isDevelopment) {
@@ -28,8 +26,14 @@ let mainWindow: any
 let position: number[]
 let size: number[]
 
+// font-manager(native モジュール)は context-aware ではないため、レンダラーで読み込むには false が必要
+// (Electron 9 以降の既定は true で、読み込み時に例外になり Vue アプリが起動しない)
+app.allowRendererProcessReuse = false
+
 // Standard scheme must be registered before the app is ready
-protocol.registerStandardSchemes(['app'], { secure: true })
+protocol.registerSchemesAsPrivileged([
+  { scheme: 'app', privileges: { secure: true, standard: true } },
+])
 function createMainWindow() {
   if (!size) {
     size = [600, 400]
@@ -39,6 +43,11 @@ function createMainWindow() {
     height: size[1],
     titleBarStyle: 'hidden',
     alwaysOnTop: false,
+    // レンダラーで electron の ipcRenderer / remote と native モジュール(font-manager)を直接使うため
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
+    },
   })
 
   if (isDevelopment) {
@@ -194,11 +203,7 @@ app.on('activate', () => {
 })
 
 // create main BrowserWindow when electron is ready
-app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
-    // Install Vue Devtools
-    await installVueDevtools()
-  }
+app.on('ready', () => {
   mainWindow = createMainWindow()
 })
 

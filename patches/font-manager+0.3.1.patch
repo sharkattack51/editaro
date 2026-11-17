@@ -1,0 +1,13 @@
+diff --git a/node_modules/font-manager/src/FontDescriptor.h b/node_modules/font-manager/src/FontDescriptor.h
+index 270d53e..42faeee 100644
+--- a/node_modules/font-manager/src/FontDescriptor.h
++++ b/node_modules/font-manager/src/FontDescriptor.h
+@@ -173,7 +173,7 @@ private:
+     MaybeLocal<Value> value = Nan::Get(obj, Nan::New<String>(name).ToLocalChecked());
+ 
+     if (!value.IsEmpty() && value.ToLocalChecked()->IsBoolean()) {
+-      return value.ToLocalChecked()->BooleanValue(Nan::GetCurrentContext()).FromJust();
++      return Nan::To<bool>(value.ToLocalChecked()).FromJust();
+     }
+ 
+     return false;

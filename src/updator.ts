@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { app, autoUpdater, dialog } from 'electron'
 
 const isProduction = process.env.NODE_ENV === 'production'
@@ -14,7 +15,7 @@ if (isProduction) {
 
   autoUpdater.on('update-downloaded', () => {
     console.log('update-downloaded')
-    const dialogIndex = dialog.showMessageBox({
+    const dialogIndex = dialog.showMessageBoxSync({
       message: 'アップデートあり',
       detail: '再起動してインストールできます。',
       buttons: ['再起動', '後で'],

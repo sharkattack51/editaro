@@ -22,3 +22,10 @@ yarn-error.log*
 
 #Electron-builder output
 /dist_electron
+
+# Local build caches (yarn / electron / node-gyp)
+/.cache
+
+# Claude Code
+CLAUDE.md
+.claude/
