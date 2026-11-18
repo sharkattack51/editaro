@@ -26,10 +26,6 @@ let mainWindow: any
 let position: number[]
 let size: number[]
 
-// font-manager(native モジュール)は context-aware ではないため、レンダラーで読み込むには false が必要
-// (Electron 9 以降の既定は true で、読み込み時に例外になり Vue アプリが起動しない)
-app.allowRendererProcessReuse = false
-
 // Standard scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } },
@@ -43,7 +39,7 @@ function createMainWindow() {
     height: size[1],
     titleBarStyle: 'hidden',
     alwaysOnTop: false,
-    // レンダラーで electron の ipcRenderer / remote と native モジュール(font-manager)を直接使うため
+    // レンダラーで electron の ipcRenderer / remote と node モジュール(font-list)を直接使うため
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,

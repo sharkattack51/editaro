@@ -1,5 +1,5 @@
 {
-  "asarUnpack": ["**/*.node"],
+  "asarUnpack": ["node_modules/font-list/libs/darwin/fontlist"],
   "mac": {
     "icon": "icons/mac/app.icns",
     "target": [

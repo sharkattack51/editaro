@@ -41,17 +41,17 @@
           <optgroup label="等幅">
             <option
               v-for="font in fontFamilies.filter(f => f.monospace)"
-              :value="font.postscriptName"
-              :key="`${font.postscriptName}-${font.path}`"
-              >{{ font.postscriptName }}</option
+              :value="font.familyName"
+              :key="font.familyName"
+              >{{ font.name }}</option
             >
           </optgroup>
           <optgroup label="標準">
             <option
               v-for="font in fontFamilies.filter(f => !f.monospace)"
-              :value="font.postscriptName"
-              :key="`${font.postscriptName}-${font.path}`"
-              >{{ font.postscriptName }}</option
+              :value="font.familyName"
+              :key="font.familyName"
+              >{{ font.name }}</option
             >
           </optgroup>
         </select>
@@ -92,7 +92,8 @@ import '../lib/theme/aesthetic'
 import '../lib/theme/aesthetic-wave'
 import themes from '../lib/theme/themes'
 import { remote } from 'electron'
-import fontFamilies from '../lib/fontFamilies'
+import { IFontInfo } from 'font-list'
+import getFontFamilies from '../lib/fontFamilies'
 
 interface IEditorModes {
   value: IEditorMode
@@ -115,7 +116,13 @@ export default class extends Vue {
   appVersion = remote.app.getVersion()
   fontSizes: number[] = range(10, 101)
   tabSizes: number[] = range(1, 11)
-  fontFamilies = fontFamilies
+  fontFamilies: IFontInfo[] = []
+
+  created() {
+    getFontFamilies().then(fonts => {
+      this.fontFamilies = fonts
+    })
+  }
 
   close() {
     this.memory.showPreferences = false
